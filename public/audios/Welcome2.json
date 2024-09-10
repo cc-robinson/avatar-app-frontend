@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "soundFile": "C:\\Users\\Ritika Bose\\Documents\\GitHub\\avatar-app-frontend\\public\\audios\\Welcome2.ogg",
+    "duration": 4.54
+  },
+  "mouthCues": [
+    { "start": 0.00, "end": 0.09, "value": "X" },
+    { "start": 0.09, "end": 0.14, "value": "F" },
+    { "start": 0.14, "end": 0.18, "value": "C" },
+    { "start": 0.18, "end": 0.53, "value": "F" },
+    { "start": 0.53, "end": 0.94, "value": "X" },
+    { "start": 0.94, "end": 1.02, "value": "A" },
+    { "start": 1.02, "end": 1.09, "value": "C" },
+    { "start": 1.09, "end": 1.15, "value": "B" },
+    { "start": 1.15, "end": 1.22, "value": "C" },
+    { "start": 1.22, "end": 1.30, "value": "A" },
+    { "start": 1.30, "end": 1.42, "value": "B" },
+    { "start": 1.42, "end": 1.70, "value": "C" },
+    { "start": 1.70, "end": 1.77, "value": "B" },
+    { "start": 1.77, "end": 1.84, "value": "C" },
+    { "start": 1.84, "end": 1.92, "value": "A" },
+    { "start": 1.92, "end": 2.10, "value": "B" },
+    { "start": 2.10, "end": 2.24, "value": "F" },
+    { "start": 2.24, "end": 2.52, "value": "B" },
+    { "start": 2.52, "end": 2.80, "value": "F" },
+    { "start": 2.80, "end": 3.14, "value": "B" },
+    { "start": 3.14, "end": 3.21, "value": "C" },
+    { "start": 3.21, "end": 3.28, "value": "E" },
+    { "start": 3.28, "end": 3.36, "value": "A" },
+    { "start": 3.36, "end": 3.42, "value": "C" },
+    { "start": 3.42, "end": 3.47, "value": "B" },
+    { "start": 3.47, "end": 3.68, "value": "C" },
+    { "start": 3.68, "end": 3.78, "value": "A" },
+    { "start": 3.78, "end": 4.01, "value": "B" },
+    { "start": 4.01, "end": 4.22, "value": "C" },
+    { "start": 4.22, "end": 4.29, "value": "B" },
+    { "start": 4.29, "end": 4.54, "value": "X" }
+  ]
+}

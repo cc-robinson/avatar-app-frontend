@@ -1,12 +1,12 @@
 
 
 import { useAnimations, useGLTF, useFBX } from "@react-three/drei";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { button, useControls } from "leva";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import * as THREE from "three";
-{/*import { useChat } from "../hooks/useChat";*/}
+import { useChat } from "../hooks/useChat"
 
 const facialExpressions = {
   default: {},
@@ -105,12 +105,12 @@ let setupMode = false;
 
 export function Avatar(props) {
   const { nodes, materials, scene } = useGLTF(
-    "models/66c8c17c9728ff197f002512.glb"
+    "/models/66db0f2bcb21e99019447727.glb"
   );
 
-  {/*const { message, onMessagePlayed, chat } = useChat()*/}
+  const { message, onMessagePlayed, chat } = useChat();
 
-  {/*const [lipsync, setLipsync] = useState();
+  const [lipsync, setLipsync] = useState();
 
   useEffect(() => {
     console.log(message);
@@ -125,64 +125,9 @@ export function Avatar(props) {
     audio.play();
     setAudio(audio);
     audio.onended = onMessagePlayed;
-  }, [message]);*/}
+  }, [message]);
 
-  let setupMode = false;
-
-  const { playAudio, script} = useControls({
-    playAudio: false,
-    script: {
-      value: "Welcome",
-      options: ["Welcome"],
-    },
-    
-  });
-
-  const audio = useMemo(() => new Audio(`/audios/${script}.mp3`), [script]);
-  const jsonFile = useLoader(THREE.FileLoader, `audios/${script}.json`);
-  const lipsync = JSON.parse(jsonFile);
-
-  useFrame((state) => {
-    const currentAudioTime = audio.currentTime;
-    if (audio.paused || audio.ended) {
-      setAnimation("Standing");
-    }
-
-    Object.values(corresponding).forEach((value) => {
-      nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[value]] = 0;
-      nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[value]] = 0;
-    });
-
-    for (let i = 0; i < lipsync.mouthCues.length; i++) {
-      const mouthCue = lipsync.mouthCues[i];
-      if (
-        currentAudioTime >= mouthCue.start && 
-        currentAudioTime <= mouthCue.end
-      ) {
-        console.log(mouthCue.value);
-        nodes.Wolf3D_Head.morphTargetInfluences[nodes.Wolf3D_Head.morphTargetDictionary[corresponding[mouthCue.value]]] = 1;
-        nodes.Wolf3D_Teeth.morphTargetInfluences[nodes.Wolf3D_Teeth.morphTargetDictionary[corresponding[mouthCue.value]]] = 1;
-      break ;
-      }
-    }
-  });
-
-  
-
-  useEffect(() => {
-    if (playAudio) {
-      audio.play();
-      if (script === "Welcome") {
-        setAnimation("Standing");
-      }
-    } else {
-      setAnimation("Standing");
-      audio.pause();
-    }
-  }, [playAudio, script]);
-
-
-  const { animations } = useFBX('animations/Standing Idle.fbx');
+  const { animations } = useGLTF("/models/animations.glb");
 
   const group = useRef();
   const { actions, mixer } = useAnimations(animations, group);
@@ -190,15 +135,11 @@ export function Avatar(props) {
     animations.find((a) => a.name === "Idle") ? "Idle" : animations[0].name // Check if Idle animation exists otherwise use first animation
   );
   useEffect(() => {
-    if (!actions || !actions[animation]) return;
-
     actions[animation]
       .reset()
       .fadeIn(mixer.stats.actions.inUse === 0 ? 0 : 0.5)
       .play();
-    return () => {
-      if (actions[animation]) actions[animation].fadeOut(0.5);
-    };
+    return () => actions[animation].fadeOut(0.5);
   }, [animation]);
 
   const lerpMorphTarget = (target, value, speed = 0.1) => {
@@ -232,7 +173,7 @@ export function Avatar(props) {
   const [winkLeft, setWinkLeft] = useState(false);
   const [winkRight, setWinkRight] = useState(false);
   const [facialExpression, setFacialExpression] = useState("");
- 
+  const [audio, setAudio] = useState();
 
   useFrame(() => {
     !setupMode &&
@@ -257,7 +198,7 @@ export function Avatar(props) {
     }
 
     const appliedMorphTargets = [];
-    if (script && lipsync) {
+    if (message && lipsync) {
       const currentAudioTime = audio.currentTime;
       for (let i = 0; i < lipsync.mouthCues.length; i++) {
         const mouthCue = lipsync.mouthCues[i];
@@ -361,11 +302,11 @@ export function Avatar(props) {
     return () => clearTimeout(blinkTimeout);
   }, []);
 
+
   return (
     <group {...props} dispose={null} ref={group}>
-      
-        <primitive object={nodes.Hips} />
-        <skinnedMesh
+      <primitive object={nodes.Hips} />
+      <skinnedMesh
         name="EyeLeft"
         geometry={nodes.EyeLeft.geometry}
         material={materials.Wolf3D_Eye}
@@ -403,9 +344,14 @@ export function Avatar(props) {
         skeleton={nodes.Wolf3D_Hair.skeleton}
       />
       <skinnedMesh
-        geometry={nodes.Wolf3D_Outfit_Top.geometry}
-        material={materials.Wolf3D_Outfit_Top}
-        skeleton={nodes.Wolf3D_Outfit_Top.skeleton}
+        geometry={nodes.Wolf3D_Glasses.geometry}
+        material={materials.Wolf3D_Glasses}
+        skeleton={nodes.Wolf3D_Glasses.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.Wolf3D_Body.geometry}
+        material={materials.Wolf3D_Body}
+        skeleton={nodes.Wolf3D_Body.skeleton}
       />
       <skinnedMesh
         geometry={nodes.Wolf3D_Outfit_Bottom.geometry}
@@ -418,14 +364,14 @@ export function Avatar(props) {
         skeleton={nodes.Wolf3D_Outfit_Footwear.skeleton}
       />
       <skinnedMesh
-        geometry={nodes.Wolf3D_Body.geometry}
-        material={materials.Wolf3D_Body}
-        skeleton={nodes.Wolf3D_Body.skeleton}
+        geometry={nodes.Wolf3D_Outfit_Top.geometry}
+        material={materials.Wolf3D_Outfit_Top}
+        skeleton={nodes.Wolf3D_Outfit_Top.skeleton}
       />
       
     </group>
   );
 }
 
-useGLTF.preload('models/66c8c17c9728ff197f002512.glb')
+useGLTF.preload('models/66db0f2bcb21e99019447727.glb')
 useGLTF.preload('/models/animations.glb');

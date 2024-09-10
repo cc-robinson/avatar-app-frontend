@@ -42,8 +42,8 @@ export const Experience = () => {
       {/*<Suspense>
         <Dots position-y={1.75} position-x={-0.02} />
       </Suspense>*/}
-      <Avatar position={[0, -6.5, 6]} rotation={[-Math.PI / 36, 0, 0]} scale={5} />  
-      <ambientLight intensity={2.5} />
+      <Avatar position={[0, -6.9, 6]} rotation={[-Math.PI / 16, 0, 0]} scale={5} />  
+      <ambientLight intensity={3.0} />
     </>
   );
 };
