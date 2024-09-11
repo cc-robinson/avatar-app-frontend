@@ -14,12 +14,9 @@
 
 body {
   margin: 0;
-  background-color: #faaca8;
-  background-image: linear-gradient(19deg, #faaca8 0%, #ddd6f3 100%);
+  background-color: #a8c7fa;
+  background-image: linear-gradient(19deg, #a8c7fa 0%, #eceaf3 100%);
 }
 
-body.greenScreen {
-  background-color: #00ff00;
-  background-image: none;
-}
+
   
