@@ -1,6 +1,3 @@
-{/* 
-    
- 
 import { createContext, useContext, useEffect, useState } from "react";
 
 const backendUrl = "http://localhost:3000";
@@ -60,6 +57,3 @@ export const useChat = () => {
   }
   return context;
 };
-    
-    
-    */}
