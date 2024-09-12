@@ -57,9 +57,16 @@ app.post("/chat", async (req, res) => {
     res.send({
       messages: [
         {
-          text: "Welcome. My name is Anne and I'm here to assist you.How may I help you today",
-          audio: await audioFileToBase64("audios/Welcome2.wav"),
-          lipsync: await readJsonTranscript("audios/Welcome2.json"),
+          text: "Hi. I am Docaide, an AI powered doctor assistant. These are the current list of appointments I found that you have. Would you like to check in?",
+          audio: await audioFileToBase64("audios/CheckinChat1.wav"),
+          lipsync: await readJsonTranscript("audios/CheckinChat1.json"),
+          facialExpression: "default",
+          animation: "Idle",
+        },
+        {
+          text: "Thank you so much for selecting check-in. Let's continue the check-in process.",
+          audio: await audioFileToBase64("audios/CheckinChat2.wav"),
+          lipsync: await readJsonTranscript("audios/CheckinChat2.json"),
           facialExpression: "default",
           animation: "Idle",
         },

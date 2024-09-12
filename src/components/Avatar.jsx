@@ -75,7 +75,7 @@ export function Avatar(props) {
     }
     return () => actions[animation]?.fadeOut(0.5);
   }, [animation]);
-  const lerpMorphTarget = (target, value, speed = 0.1) => {
+  const lerpMorphTarget = (target, value, speed = 0.01) => {
     scene.traverse((child) => {
       if (child.isSkinnedMesh && child.morphTargetDictionary) {
         const index = child.morphTargetDictionary[target];
@@ -190,13 +190,13 @@ export function Avatar(props) {
   const [, set] = useControls("MorphTarget", () =>
     Object.assign(
       {},
-      ...Object.keys(nodes.EyeLeft.morphTargetDictionary).map((key) => {
+      ...Object.keys(nodes.Wolf3D_Teeth.morphTargetDictionary).map((key) => {
         return {
           [key]: {
             label: key,
             value: 0,
-            min: nodes.EyeLeft.morphTargetInfluences[
-              nodes.EyeLeft.morphTargetDictionary[key]
+            min: nodes.Wolf3D_Teeth.morphTargetInfluences[
+              nodes.Wolf3D_Teeth.morphTargetDictionary[key]
             ],
             max: 1,
             onChange: (val) => {
