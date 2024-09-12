@@ -64,14 +64,17 @@ export function Avatar(props) {
   );
   useEffect(() => {
     if (actions[animation]) {
-      actions[animation]
-        .reset()
-        .fadeIn(mixer.stats.actions.inUse === 0 ? 0 : 0.5)
-        .play();
+      try {
+        actions[animation]
+          .reset()
+          .fadeIn(mixer.stats.actions.inUse === 0 ? 0 : 0.5)
+          .play();
+      } catch (error) {
+        console.error('Failed to play animation:', error.message);
+      }
     }
     return () => actions[animation]?.fadeOut(0.5);
   }, [animation]);
-  
   const lerpMorphTarget = (target, value, speed = 0.5) => {
     scene.traverse((child) => {
       if (child.isSkinnedMesh && child.morphTargetDictionary) {

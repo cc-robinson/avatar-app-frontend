@@ -8,10 +8,10 @@ import OpenAI from "openai";
 dotenv.config();
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, 
+  apiKey: process.env.OPENAI_API_KEY || "-", // Your OpenAI API key here, I used "-" to avoid errors when the key is not set 
 });
 
-{/*const elevenLabsApiKey = process.env.ELEVEN_LABS_API_KEY;*/}
+const elevenLabsApiKey = process.env.ELEVEN_LABS_API_KEY;
 const voiceID = "kgG7dCoKCfLehAPWkJOE";
 
 const app = express();
@@ -58,7 +58,7 @@ app.post("/chat", async (req, res) => {
       messages: [
         {
           text: "Welcome. My name is Anne and I'm here to assist you.How may I help you today",
-          audio: await audioFileToBase64("audios/Welcome2.mp3"),
+          audio: await audioFileToBase64("audios/Welcome2.wav"),
           lipsync: await readJsonTranscript("audios/Welcome2.json"),
           facialExpression: "default",
           animation: "Idle",
@@ -67,7 +67,7 @@ app.post("/chat", async (req, res) => {
     });
     return;
   }
-  {/*if (!elevenLabsApiKey || openai.apiKey === OPENAI_API_KEY)*/} {
+  if (!elevenLabsApiKey || openai.apiKey === "-") {  //Your OpenAI API key here, I used "-" to avoid errors when the key is not set 
     res.send({
       messages: [],
     });
