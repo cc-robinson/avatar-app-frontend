@@ -100,7 +100,7 @@ app.post("/chat", async (req, res) => {
   });
   let messages = JSON.parse(completion.choices[0].message.content);
   if (messages.messages) {
-    messages = messages.messages; // ChatGPT is not 100% reliable, sometimes it directly returns an array and sometimes a JSON object with a messages property
+    messages = messages.messages; // sometimes model directly returns an array and sometimes a JSON object with a messages property
   }
   {/*console.log(messages);
   return;*/}
