@@ -75,7 +75,7 @@ export function Avatar(props) {
     }
     return () => actions[animation]?.fadeOut(0.5);
   }, [animation]);
-  const lerpMorphTarget = (target, value, speed = 0.5) => {
+  const lerpMorphTarget = (target, value, speed = 0.1) => {
     scene.traverse((child) => {
       if (child.isSkinnedMesh && child.morphTargetDictionary) {
         const index = child.morphTargetDictionary[target];
@@ -121,7 +121,7 @@ export function Avatar(props) {
         }
       });
 
-    lerpMorphTarget("eyeBlinkLeft", blink ? 1 : 0, 0.9 );
+    lerpMorphTarget("eyeBlinkLeft", blink ? 1 : 0, 0.9);
     lerpMorphTarget("eyeBlinkRight", blink ? 1 : 0, 0.9);
 
     if (setupMode) {
