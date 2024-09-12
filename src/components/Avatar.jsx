@@ -34,10 +34,10 @@ export function Avatar(props) {
   const jsonFile = useLoader(THREE.FileLoader, `audios/${script}.json`);
   const lipsync = JSON.parse(jsonFile);
 
-  useFrame((state) => {
+  useFrame(() => {
     const currentAudioTime = audio.currentTime;
     if (audio.paused || audio.ended) {
-      setAnimation("Standing Idle");
+      setAnimation("Idle");
     }
 
     Object.values(corresponding).forEach((value) => {
@@ -63,29 +63,45 @@ export function Avatar(props) {
 
   useEffect(() => {
     if (playAudio) {
-      audio.play();
-      if (script === "Welcome2") {
-        setAnimation("Standing");
-      }
+      audio.play()
+        .then(() => {
+          if (script === "Welcome2") {
+            setAnimation("Idle");
+          }
+        })
+        .catch((error) => {
+          console.error('Audio playback failed:', error);
+        });
     } else {
-      setAnimation("Standing");
+      setAnimation("Idle");
       audio.pause();
     }
   }, [playAudio, script]);
 
   const { nodes, materials, scene } = useGLTF('models/66db0f2bcb21e99019447727.glb');
-  const { animations: standingAnimation } = useFBX('/animations/Standing Idle.fbx');
+  const { animations: idleAnimation } = useFBX('/animations/Standing Idle.fbx');
+  const { animations: greetingAnimation } = useFBX('/animations/Standing Greeting.fbx');
   
-  standingAnimation[0].name = "Standing";
+  idleAnimation[0].name = "Idle";
+  greetingAnimation[0].name = "Greeting";
 
-  const [animation, setAnimation] = useState("Standing");
+  const [animation, setAnimation] = useState("Idle");
 
   const group = useRef();
-  const {actions} = useAnimations(standingAnimation, group);
+  const {actions} = useAnimations([idleAnimation[0], greetingAnimation[0]], 
+    group
+  );
 
-  
+  useEffect(() => {
+    console.log(nodes.Wolf3D_Head.morphTargetDictionary);
+  }, []);
 
-  const lerpMorphTarget = (target, value, speed = 0.1) => {
+  useEffect(() => {
+    actions[animation].reset().fadeIn(0.5).play();
+    return () => actions[animation].fadeOut(0.5);
+  }, [animation]);
+
+  const lerpMorphTarget = (target, value, speed = 0.5) => {
     scene.traverse((child) => {
       if (child.isSkinnedMesh && child.morphTargetDictionary) {
         const index = child.morphTargetDictionary[target];
@@ -116,8 +132,8 @@ export function Avatar(props) {
 
   
 
-  lerpMorphTarget("eyeBlinkLeft", blink ? 1 : 0, 0.1 );
-  lerpMorphTarget("eyeBlinkRight", blink ? 1 : 0, 0.1);
+  lerpMorphTarget("eyeBlinkLeft", blink ? 1 : 0, 0.9 );
+  lerpMorphTarget("eyeBlinkRight", blink ? 1 : 0, 0.9);
 
   Object.keys(nodes.EyeLeft.morphTargetDictionary).forEach((key) => {
     if (key === "eyeBlinkLeft" || key === "eyeBlinkRight") {
@@ -149,7 +165,7 @@ export function Avatar(props) {
 
 
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} ref={group}>
       <primitive object={nodes.Hips} />
       <skinnedMesh
         name="EyeLeft"
@@ -214,8 +230,9 @@ export function Avatar(props) {
         skeleton={nodes.Wolf3D_Outfit_Top.skeleton}
       />
     </group>
-  );
+  )
 }
+
 
 
 useGLTF.preload("/models/66db0f2bcb21e99019447727.glb");
