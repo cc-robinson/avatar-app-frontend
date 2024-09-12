@@ -7,7 +7,7 @@ import {
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useChat } from "../hooks/useChat";
 import { Avatar } from "./Avatar";
-
+import { OrbitControls } from "@react-three/drei";
 
 const Dots = (props) => {
   const { loading } = useChat();
@@ -43,7 +43,7 @@ export const Experience = () => {
   
 
   useEffect(() => {
-    cameraControls.current.setLookAt(0, 2, 5, 0, 1.5, 0);
+    cameraControls.current.setLookAt(0, 2, 5, 0, 1.3, 0);
   }, []);
 
  
@@ -55,7 +55,7 @@ export const Experience = () => {
       <Suspense>
         <Dots position-y={1.75} position-x={-0.02} />
       </Suspense>
-      <Avatar position={[0, -1.5, 2]} rotation={[-Math.PI / 230, 0, 0]} scale={2}/>
+      <Avatar position={[0, -1.5, 3]} rotation={[Math.PI/2, 0, 0]} scale={2}/>
       <ContactShadows opacity={0.7} />
     </>
   );

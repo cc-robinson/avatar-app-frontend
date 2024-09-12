@@ -27,7 +27,7 @@ function App() {
     <>
       <Loader />
       <UI />
-      <Canvas shadows camera={{ position: [0, 6, 17], fov: 15 }}>
+      <Canvas shadows camera={{ position: [0, 6, 17], fov: 40 }}>
         <color attach="background" args={["#ececec"]} />
         <Experience />
       </Canvas>
